@@ -5,8 +5,7 @@ import * as logger from 'morgan';
 import * as createError from 'http-errors';
 import * as configs from "../config";
 import home from "./routes";
-import moviesNames from "./routes/movieNames";
-import movieDetails from "./routes/movieDetails";
+import shortenURL from "./routes/shortenURL";
 
 // Port on which incoming requests will arrive
 const port = 5000
@@ -43,8 +42,7 @@ app.use(async (req, res, next) => {
 
 
 app.use('/', home); // Connect the base route to the route handling function stored inside /routes/index
-app.use('/api/movies', moviesNames); // Connect the /api/currencies route to the route handling function stored /routes/currencies
-app.use('/api/movie', movieDetails); // Connect the /api/currencies route to the route handling function stored /routes/currencies
+app.use('/api/shortenurl', shortenURL); // Connect the /api/currencies route to the route handling function stored /routes/currencies
 
 // Middleware for handleing error
 app.use((req, res, next) => {
