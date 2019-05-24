@@ -94,6 +94,7 @@ class ShortenURL{
                 if (err) {
                     reject(err);
                 }
+                console.log({url})
                 if(url.length == 0){
                     resolve({status: 0, url: '', message: `${shortURL} does not exist`});
                 }
