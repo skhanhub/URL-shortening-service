@@ -5,55 +5,55 @@ import * as logger from 'morgan';
 import * as createError from 'http-errors';
 import * as configs from "../config";
 import home from "./routes";
-import shortenURL from "./routes/shortenURL";
+import shortenURL from "./routes/newURL";
 
 // Port on which incoming requests will arrive
-const port = 5000
+const PORT = 5000
 // Create the application
-const app = express();
+const APP = express();
 // Load the configs
-const config = configs[app.get('env')];
+const CONFIG = configs[APP.get('env')];
 // Set sitename
-app.locals.title = config.sitename;
+APP.locals.title = CONFIG.sitename;
 
-app.use(logger('dev'));
+APP.use(logger('dev'));
 // support json encoded bodies
-app.use(express.json());
+APP.use(express.json());
 // support urlencode
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+APP.use(express.urlencoded({ extended: false }));
+APP.use(cookieParser());
 // Set the public static folder containing the front end template and logic
-app.use(express.static(path.join(__dirname, '../public')));
+APP.use(express.static(path.join(__dirname, '../public')));
 
 
 
 // If dev env then set pretty to true
-if (app.get('env') === 'development') {
-  app.locals.pretty = true;
+if (APP.get('env') === 'development') {
+  APP.locals.pretty = true;
 }
 
 
 // Add the title to the response
-app.use(async (req, res, next) => {
-  res.locals.status = app.locals.title;
+APP.use(async (req, res, next) => {
+  res.locals.status = APP.locals.title;
   // Call the next function
   return next();
 });
 
 
-app.use('/', home); // Connect the base route to the route handling function stored inside /routes/index
-app.use('/api/shortenurl', shortenURL); // Connect the /api/currencies route to the route handling function stored /routes/currencies
+APP.use('/', home); // Connect the base route to the route handling function stored inside /routes/index
+APP.use('/api/shortenurl', shortenURL); // Connect the /api/currencies route to the route handling function stored /routes/currencies
 
 // Middleware for handleing error
-app.use((req, res, next) => {
+APP.use((req, res, next) => {
   return next(createError(404, 'File not found'));
 });
 // Middleware for handleing error
-app.use((err, req, res, next) => {
+APP.use((err, req, res, next) => {
   res.locals.message = err.message;
   const status = err.status || 500;
   res.locals.status = status;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = req.APP.get('env') === 'development' ? err : {};
   res.status(status);
 
   // respond with html page
@@ -71,9 +71,7 @@ app.use((err, req, res, next) => {
   return res.type('txt').send('Not found');
 });
 
-// Run the web app and store the returned variable for later export
-let server = app.listen(port, () => console.log(`Listening on ${port}`));
+// Run the web APP and store the returned variable for later export
+let server = APP.listen(PORT, () => console.log(`Listening on ${PORT}`));
 // Export the server for unit testing
 export default server;
-
-
