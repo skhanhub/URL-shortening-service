@@ -8,7 +8,7 @@ import home from "./routes";
 import newURL from "./routes/newURL";
 import shortenURL from "./services/shortenURL";
 // Port on which incoming requests will arrive
-const PORT = 5000
+const PORT = process.env.PORT || 5000
 // Create the application
 const APP = express();
 // Load the configs
