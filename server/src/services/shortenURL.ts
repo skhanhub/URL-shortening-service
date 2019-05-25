@@ -1,14 +1,13 @@
-
+// File containing the ShortenURL class
 import * as shortid from "shortid";
 import * as sqlite3 from 'sqlite3';
 import * as path from "path";
 
 type  ReturnObject  = {
-    status: number,
-    url: string,
-    message: string,
-  }
-
+  status: number,
+  url: string,
+  message: string,
+}
 
 class ShortenURL{
     databasePath: string;
@@ -54,53 +53,52 @@ class ShortenURL{
 
 
     StoreURLInMemory = (host: string, longURL: string): { [URL_KEY: string]: string } => {
-        const URL_KEY = shortid.generate();
-        this.urlMapInMemory[URL_KEY] = longURL;
-        return {'shortURL': `${host}/${URL_KEY}`};
+      const URL_KEY = shortid.generate();
+      this.urlMapInMemory[URL_KEY] = longURL;
+      return {'shortURL': `${host}/${URL_KEY}`};
     }
 
     LoadURLFromMemory = (shortURL: string): ReturnObject =>{
-        const RESULT = this.urlMapInMemory[shortURL]
-        return RESULT ? { status: 1, url: RESULT, message: ''} : {status: 0, url: '', message: `${shortURL} does not exist`}
+      const RESULT = this.urlMapInMemory[shortURL]
+      return RESULT ? { status: 1, url: RESULT, message: ''} : {status: 0, url: '', message: `${shortURL} does not exist`}
     }
 
     StoreURLInDB = async (host: string, longURL: string): Promise<{ [shortURL: string]: string }> => {
 
-        if(this.first){
-            await this.InitializeDB()
-        }
+      if(this.first){
+          await this.InitializeDB()
+      }
+      return new Promise((resolve, reject) => {
+          const URL_KEY = shortid.generate();
 
-        return new Promise((resolve, reject) => {
-            const URL_KEY = shortid.generate();
+          this.db.run(`INSERT INTO url(URLKEY, URL) VALUES('${URL_KEY}', '${longURL}')`, function(err) {
+              if (err) reject(err);
 
-            this.db.run(`INSERT INTO url(URLKEY, URL) VALUES('${URL_KEY}', '${longURL}')`, function(err) {
-                if (err) reject(err);
-
-                console.log(`Rows inserted ${this.changes}`);
-                resolve({'shortURL': `${host}/${URL_KEY}`});
-            });
-        });
+              console.log(`Rows inserted ${this.changes}`);
+              resolve({'shortURL': `${host}/${URL_KEY}`});
+          });
+      });
     };
 
     LoadURLFromDB = async (shortURL: string): Promise<ReturnObject> => {
 
-        if(this.first){
-            await this.InitializeDB();
-        }
-        return new Promise((resolve, reject) => {
+      if(this.first){
+          await this.InitializeDB();
+      }
+      return new Promise((resolve, reject) => {
 
-            this.db.all(`SELECT URL FROM url WHERE URLKEY='${shortURL}'`, (err, url) => {
-                if (err) {
-                    reject(err);
-                }
-                if(url.length == 0){
-                    resolve({status: 0, url: '', message: `${shortURL} does not exist`});
-                }
-                else{
-                    resolve({status: 1, url: url[0].URL, message: ''});
-                }
-            });
-        });
+          this.db.all(`SELECT URL FROM url WHERE URLKEY='${shortURL}'`, (err, url) => {
+              if (err) {
+                  reject(err);
+              }
+              if(url.length == 0){
+                  resolve({status: 0, url: '', message: `${shortURL} does not exist`});
+              }
+              else{
+                  resolve({status: 1, url: url[0].URL, message: ''});
+              }
+          });
+      });
     };
 };
 

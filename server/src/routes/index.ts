@@ -1,4 +1,4 @@
-// Import necessary libraries
+// File containing the root route
 import * as express from "express";
 import * as path from "path";
 import shortenURL from "../services/shortenURL";
@@ -6,6 +6,11 @@ import shortenURL from "../services/shortenURL";
 const ROUTER = express.Router();
 
 
+/*
+  GET route for fetching the index.html home page
+  This route does not take any arguments
+  It returns the index.html page
+*/
 ROUTER.get('/', async (req, res, next) => {
   try{
     res.status(200).sendFile(path.join(__dirname, '../../client/build'));
@@ -14,7 +19,12 @@ ROUTER.get('/', async (req, res, next) => {
     return next(err);
   }
 })
-.get('/:url', async (req, res, next) => {
+/*
+  GET route for fetching the original URL
+  This route takes the urlKey as a parameter
+  It redirect the requester to the original URL and no URL found then it sends a 404
+*/
+ROUTER.get('/:url', async (req, res, next) => {
   try{
     let result;
     if(process.argv[2] === 'inMemory'){

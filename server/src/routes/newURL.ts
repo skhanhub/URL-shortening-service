@@ -1,10 +1,15 @@
-// Import necessary libraries
+// // File containing the /api/shortenURL route
 import * as express from "express";
 import shortenURL from "../services/shortenURL";
 
 // Use the express router function to create a new route
 const ROUTER = express.Router();
 
+/*
+  POST route for getting the urlKey
+  This route takes a JSON object of the following form {"url": "Original URL"}
+  It a JSON object of the following form {"shortURL": "New Short URL"}
+*/
 ROUTER.post('/', async (req, res, next) => {
   try{
     if(process.argv[2] === 'inMemory'){
