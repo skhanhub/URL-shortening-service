@@ -8,7 +8,7 @@ The application uses the following technologies:
 - Frontend: ReactJs 
 - Type Checking: Typescript
 
-<img src="url-shortening-service.PNG">
+<img src="images/url-shortening-service.PNG">
 
 ## Getting Started
 
