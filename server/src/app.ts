@@ -5,8 +5,8 @@ import * as logger from 'morgan';
 import * as createError from 'http-errors';
 import * as configs from "../config";
 import home from "./routes";
-import shortenURL from "./routes/newURL";
-
+import newURL from "./routes/newURL";
+import shortenURL from "./services/shortenURL";
 // Port on which incoming requests will arrive
 const PORT = 5000
 // Create the application
@@ -26,6 +26,10 @@ APP.use(cookieParser());
 APP.use(express.static(path.join(__dirname, '../public')));
 
 
+if(process.argv[2] !== 'inMemory'){
+  shortenURL.InitializeDB();
+}
+
 
 // If dev env then set pretty to true
 if (APP.get('env') === 'development') {
@@ -42,7 +46,7 @@ APP.use(async (req, res, next) => {
 
 
 APP.use('/', home); // Connect the base route to the route handling function stored inside /routes/index
-APP.use('/api/shortenurl', shortenURL); // Connect the /api/currencies route to the route handling function stored /routes/currencies
+APP.use('/api/shortenurl', newURL); // Connect the /api/currencies route to the route handling function stored /routes/currencies
 
 // Middleware for handleing error
 APP.use((req, res, next) => {

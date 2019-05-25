@@ -4,7 +4,6 @@ import shortenURL from "../services/shortenURL";
 // Use the express router function to create a new route
 const ROUTER = express.Router();
 
- 
 ROUTER.get('/:url', async (req, res, next) => {
   try{
     let result;
@@ -19,7 +18,7 @@ ROUTER.get('/:url', async (req, res, next) => {
       res.status(404).send(result.message);
     }
     else{
-      res.status(302).redirect(result);
+      res.status(302).redirect(result.url);
     }
   } catch(err) {
     // If there is an error then pass the error to the next function
