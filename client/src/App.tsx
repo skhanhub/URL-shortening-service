@@ -63,6 +63,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <Container>
+            <h2>Get A Shorter URL</h2>
             <InputURL
               NewinputURL={this.NewinputURL}
               GetURL={this.GetURL}

@@ -1,18 +1,8 @@
-'use struct';
-
-import * as path from "path";
-
-module.exports = {
+export default {
   development: {
-    sitename: 'Compare Movie Price [Development]',
-    timeout: 4000,
-    baseURL: 'http://webjetapitest.azurewebsites.net/api',
-    cinemaList: ['cinemaworld', 'filmworld'],
+    sitename: 'Get A Shorter URL [Development]'
   },
   production: {
-    sitename: 'Compare Movie Price',
-    timeout: 4000,
-    baseURL: 'http://webjetapitest.azurewebsites.net/api',
-    cinemaList: ['cinemaworld', 'filmworld'],
+    sitename: 'Get A Shorter URL',
   },
 }

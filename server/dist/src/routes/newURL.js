@@ -38,46 +38,27 @@ var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 // Import necessary libraries
 var express = require("express");
-var path = require("path");
 var shortenURL_1 = require("../services/shortenURL");
 // Use the express router function to create a new route
 var ROUTER = express.Router();
-ROUTER.get('/', function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        try {
-            res.sendFile(path.join(__dirname, '../../client/build'));
-        }
-        catch (err) {
-            // If there is an error then pass the error to the next function
-            return [2 /*return*/, next(err)];
-        }
-        return [2 /*return*/];
-    });
-}); })
-    .get('/:url', function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
-    var result, err_1;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
+ROUTER.post('/', function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+    var _a, _b, err_1;
+    return __generator(this, function (_c) {
+        switch (_c.label) {
             case 0:
-                _a.trys.push([0, 4, , 5]);
-                result = void 0;
+                _c.trys.push([0, 4, , 5]);
                 if (!(process.argv[2] === 'inMemory')) return [3 /*break*/, 1];
-                result = shortenURL_1.default.LoadURLFromMemory(req.params.url);
+                res.status(200).json(shortenURL_1.default.StoreURLInMemory(req.headers.host, req.body.url));
                 return [3 /*break*/, 3];
-            case 1: return [4 /*yield*/, shortenURL_1.default.LoadURLFromDB(req.params.url)];
+            case 1:
+                _b = (_a = res.status(200)).json;
+                return [4 /*yield*/, shortenURL_1.default.StoreURLInDB(req.headers.host, req.body.url)];
             case 2:
-                result = _a.sent();
-                _a.label = 3;
-            case 3:
-                if (result.status === 0) {
-                    res.status(404).send(result.message);
-                }
-                else {
-                    res.status(302).redirect(result.url);
-                }
-                return [3 /*break*/, 5];
+                _b.apply(_a, [_c.sent()]);
+                _c.label = 3;
+            case 3: return [3 /*break*/, 5];
             case 4:
-                err_1 = _a.sent();
+                err_1 = _c.sent();
                 // If there is an error then pass the error to the next function
                 return [2 /*return*/, next(err_1)];
             case 5: return [2 /*return*/];
@@ -86,4 +67,4 @@ ROUTER.get('/', function (req, res, next) { return __awaiter(_this, void 0, void
 }); });
 // Export router as the default object
 exports.default = ROUTER;
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=newURL.js.map

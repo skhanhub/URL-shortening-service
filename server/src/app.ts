@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as cookieParser from 'cookie-parser';
 import * as logger from 'morgan';
 import * as createError from 'http-errors';
-import * as configs from "../config";
+import configs from "../config";
 import home from "./routes";
 import newURL from "./routes/newURL";
 import shortenURL from "./services/shortenURL";
@@ -12,7 +12,7 @@ const PORT = 5000
 // Create the application
 const APP = express();
 // Load the configs
-const CONFIG = configs[APP.get('env')];
+const CONFIG = configs['production'];
 // Set sitename
 APP.locals.title = CONFIG.sitename;
 

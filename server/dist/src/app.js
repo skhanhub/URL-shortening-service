@@ -43,47 +43,51 @@ var logger = require("morgan");
 var createError = require("http-errors");
 var configs = require("../config");
 var routes_1 = require("./routes");
-var shortenURL_1 = require("./routes/shortenURL");
+var newURL_1 = require("./routes/newURL");
+var shortenURL_1 = require("./services/shortenURL");
 // Port on which incoming requests will arrive
-var port = 5000;
+var PORT = 5000;
 // Create the application
-var app = express();
+var APP = express();
 // Load the configs
-var config = configs[app.get('env')];
+var CONFIG = configs[APP.get('env')];
 // Set sitename
-app.locals.title = config.sitename;
-app.use(logger('dev'));
+APP.locals.title = CONFIG.sitename;
+APP.use(logger('dev'));
 // support json encoded bodies
-app.use(express.json());
+APP.use(express.json());
 // support urlencode
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+APP.use(express.urlencoded({ extended: false }));
+APP.use(cookieParser());
 // Set the public static folder containing the front end template and logic
-app.use(express.static(path.join(__dirname, '../public')));
+APP.use(express.static(path.join(__dirname, '../public')));
+if (process.argv[2] !== 'inMemory') {
+    shortenURL_1.default.InitializeDB();
+}
 // If dev env then set pretty to true
-if (app.get('env') === 'development') {
-    app.locals.pretty = true;
+if (APP.get('env') === 'development') {
+    APP.locals.pretty = true;
 }
 // Add the title to the response
-app.use(function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+APP.use(function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
-        res.locals.status = app.locals.title;
+        res.locals.status = APP.locals.title;
         // Call the next function
         return [2 /*return*/, next()];
     });
 }); });
-app.use('/', routes_1.default); // Connect the base route to the route handling function stored inside /routes/index
-app.use('/api/shortenURL', shortenURL_1.default); // Connect the /api/currencies route to the route handling function stored /routes/currencies
+APP.use('/', routes_1.default); // Connect the base route to the route handling function stored inside /routes/index
+APP.use('/api/shortenurl', newURL_1.default); // Connect the /api/currencies route to the route handling function stored /routes/currencies
 // Middleware for handleing error
-app.use(function (req, res, next) {
+APP.use(function (req, res, next) {
     return next(createError(404, 'File not found'));
 });
 // Middleware for handleing error
-app.use(function (err, req, res, next) {
+APP.use(function (err, req, res, next) {
     res.locals.message = err.message;
     var status = err.status || 500;
     res.locals.status = status;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
+    res.locals.error = req.APP.get('env') === 'development' ? err : {};
     res.status(status);
     // respond with html page
     if (req.accepts('html')) {
@@ -97,8 +101,8 @@ app.use(function (err, req, res, next) {
     // default to plain-text. send()
     return res.type('txt').send('Not found');
 });
-// Run the web app and store the returned variable for later export
-var server = app.listen(port, function () { return console.log("Listening on " + port); });
+// Run the web APP and store the returned variable for later export
+var server = APP.listen(PORT, function () { return console.log("Listening on " + PORT); });
 // Export the server for unit testing
 exports.default = server;
 //# sourceMappingURL=app.js.map

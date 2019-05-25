@@ -1,10 +1,20 @@
 // Import necessary libraries
 import * as express from "express";
+import * as path from "path";
 import shortenURL from "../services/shortenURL";
 // Use the express router function to create a new route
 const ROUTER = express.Router();
 
-ROUTER.get('/:url', async (req, res, next) => {
+
+ROUTER.get('/', async (req, res, next) => {
+  try{
+    res.status(200).sendFile(path.join(__dirname, '../../client/build'));
+  } catch(err) {
+    // If there is an error then pass the error to the next function
+    return next(err);
+  }
+})
+.get('/:url', async (req, res, next) => {
   try{
     let result;
     if(process.argv[2] === 'inMemory'){
