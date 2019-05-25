@@ -27,6 +27,7 @@ class ShortenURL{
     InitializeDB = async (databasePath: string = this.databasePath) =>{
 
       this.databasePath = databasePath;
+      console.log('databasePath', path.join(__dirname, this.databasePath));
       this.first = false;
       return new Promise((resolve, reject) => {
           this.db = new sqlite3.Database(path.join(__dirname, this.databasePath), (err) => {

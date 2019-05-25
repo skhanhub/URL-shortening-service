@@ -41,16 +41,16 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var createError = require("http-errors");
-var configs = require("../config");
+var config_1 = require("../config");
 var routes_1 = require("./routes");
 var newURL_1 = require("./routes/newURL");
 var shortenURL_1 = require("./services/shortenURL");
 // Port on which incoming requests will arrive
-var PORT = 5000;
+var PORT = process.env.PORT || 5000;
 // Create the application
 var APP = express();
 // Load the configs
-var CONFIG = configs[APP.get('env')];
+var CONFIG = config_1.default['production'];
 // Set sitename
 APP.locals.title = CONFIG.sitename;
 APP.use(logger('dev'));

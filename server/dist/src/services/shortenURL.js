@@ -49,6 +49,7 @@ var ShortenURL = /** @class */ (function () {
                 var _this = this;
                 return __generator(this, function (_a) {
                     this.databasePath = databasePath;
+                    console.log('databasePath', path.join(__dirname, this.databasePath));
                     this.first = false;
                     return [2 /*return*/, new Promise(function (resolve, reject) {
                             _this.db = new sqlite3.Database(path.join(__dirname, _this.databasePath), function (err) {

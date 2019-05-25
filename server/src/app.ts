@@ -25,9 +25,8 @@ APP.use(cookieParser());
 // Set the public static folder containing the front end template and logic
 APP.use(express.static(path.join(__dirname, '../public')));
 
-const DB_PATH = '../db/shortURL.db'
 if(process.argv[2] !== 'inMemory'){
-  shortenURL.InitializeDB(DB_PATH);
+  shortenURL.InitializeDB();
 }
 
 

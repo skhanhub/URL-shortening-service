@@ -45,7 +45,7 @@ var ROUTER = express.Router();
 ROUTER.get('/', function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         try {
-            res.sendFile(path.join(__dirname, '../../client/build'));
+            res.status(200).sendFile(path.join(__dirname, '../../client/build'));
         }
         catch (err) {
             // If there is an error then pass the error to the next function
