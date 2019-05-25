@@ -8,7 +8,7 @@ fs.copy("./public", "./dist/public", function (err) {
       console.log('An error occured while copying the folder.')
       return console.error(err)
   }
-  console.log('Copy completed!')
+
 });
 
 fs.copy("./src/db", "./dist/src/db", function (err) {
