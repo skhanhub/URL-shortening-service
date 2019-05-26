@@ -3,6 +3,7 @@ import * as path from 'path';
 import * as cookieParser from 'cookie-parser';
 import * as logger from 'morgan';
 import * as createError from 'http-errors';
+const rateLimit = require("express-rate-limit");
 import configs from "../config";
 import home from "./routes";
 import newURL from "./routes/newURL";
@@ -22,6 +23,11 @@ APP.use(express.json());
 // support urlencode
 APP.use(express.urlencoded({ extended: false }));
 APP.use(cookieParser());
+const LIMITER = rateLimit({
+  windowMs: 5 * 60 * 1000, // 5 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+APP.use(LIMITER);
 // Set the public static folder containing the front end template and logic
 APP.use(express.static(path.join(__dirname, '../public')));
 

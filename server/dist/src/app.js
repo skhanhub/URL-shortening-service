@@ -41,6 +41,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var createError = require("http-errors");
+var rateLimit = require("express-rate-limit");
 var config_1 = require("../config");
 var routes_1 = require("./routes");
 var newURL_1 = require("./routes/newURL");
@@ -59,6 +60,11 @@ APP.use(express.json());
 // support urlencode
 APP.use(express.urlencoded({ extended: false }));
 APP.use(cookieParser());
+var LIMITER = rateLimit({
+    windowMs: 5 * 60 * 1000,
+    max: 100 // limit each IP to 100 requests per windowMs
+});
+APP.use(LIMITER);
 // Set the public static folder containing the front end template and logic
 APP.use(express.static(path.join(__dirname, '../public')));
 if (process.argv[2] !== 'inMemory') {
