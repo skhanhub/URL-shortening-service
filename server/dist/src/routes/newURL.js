@@ -36,11 +36,16 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-// Import necessary libraries
+// // File containing the /api/shortenURL route
 var express = require("express");
 var shortenURL_1 = require("../services/shortenURL");
 // Use the express router function to create a new route
 var ROUTER = express.Router();
+/*
+  POST route for getting the urlKey
+  This route takes a JSON object of the following form {"url": "Original URL"}
+  It a JSON object of the following form {"shortURL": "New Short URL"}
+*/
 ROUTER.post('/', function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
     var _a, _b, err_1;
     return __generator(this, function (_c) {

@@ -36,12 +36,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-// Import necessary libraries
+// File containing the root route
 var express = require("express");
 var path = require("path");
 var shortenURL_1 = require("../services/shortenURL");
 // Use the express router function to create a new route
 var ROUTER = express.Router();
+/*
+  GET route for fetching the index.html home page
+  This route does not take any arguments
+  It returns the index.html page
+*/
 ROUTER.get('/', function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         try {
@@ -53,8 +58,13 @@ ROUTER.get('/', function (req, res, next) { return __awaiter(_this, void 0, void
         }
         return [2 /*return*/];
     });
-}); })
-    .get('/:url', function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
+}); });
+/*
+  GET route for fetching the original URL
+  This route takes the urlKey as a parameter
+  It redirect the requester to the original URL and no URL found then it sends a 404
+*/
+ROUTER.get('/:url', function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
     var result, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
